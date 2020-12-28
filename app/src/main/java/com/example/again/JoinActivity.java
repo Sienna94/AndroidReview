@@ -49,7 +49,7 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
         tv3=findViewById(R.id.tv_agr2);
         tv4=findViewById(R.id.tv_agrContent1);
 
-        etId = findViewById(R.id.et_user);
+        etId = findViewById(R.id.et_email);
         etName=findViewById(R.id.et_name);
         etPhone=findViewById(R.id.et_phone);
         etPw1=findViewById(R.id.et_pw);
