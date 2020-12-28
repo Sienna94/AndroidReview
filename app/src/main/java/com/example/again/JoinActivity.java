@@ -130,7 +130,7 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
             pw = "join_pass="+pw; //pw=1234
             name = "name="+name;
             phone = "phone="+phone;
-            String url = "172.20.10.4:8180/oop/join.do?"+id+"&"+pw+"&"+name+"&"+phone;
+            String url = "http://172.20.10.4:8180/oop/join.do?"+id+"&"+pw+"&"+name+"&"+phone;
             //192.168.35.215:8080/gather/insertJoin.do?id=aaa&pw=1234&name=zzzz&phone01010101
 
             //172.20.10.4:8180/oop/contentList.do
