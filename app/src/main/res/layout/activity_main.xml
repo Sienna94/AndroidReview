@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/tv_user"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:background="#dfdfdf"
+            android:gravity="center"
+            android:text="ID"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/tv_pw"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_user"
+            android:background="#dfdfdf"
+            android:gravity="center"
+            android:text="PW"
+            android:textSize="25sp" />
+
+        <EditText
+            android:id="@+id/et_user"
+            android:layout_width="150dp"
+            android:background="#DFCECE"
+            android:layout_alignTop="@+id/tv_user"
+            android:layout_alignBottom="@+id/tv_user"
+            android:layout_toRightOf="@+id/tv_user"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/et_pw"
+            android:layout_width="150dp"
+            android:background="#DFCECE"
+            android:layout_alignTop="@+id/tv_pw"
+            android:layout_alignBottom="@+id/tv_pw"
+            android:layout_below="@+id/et_user"
+            android:layout_toRightOf="@+id/tv_user"
+            android:layout_height="wrap_content"/>
+
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="115dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/et_pw"
+            android:layout_alignLeft="@id/tv_pw"
+            android:text="login"
+            />
+        <Button
+            android:id="@+id/btn_join"
+            android:layout_width="115dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/et_pw"
+            android:text="join"
+            android:layout_toRightOf="@id/btn_login"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>
