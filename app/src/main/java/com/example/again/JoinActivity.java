@@ -21,6 +21,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -112,7 +116,7 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
     Response.ErrorListener errorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
-
+            Log.d("kkk", "uuu");
         }
     };
 
@@ -120,6 +124,7 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onResponse(String response) {
             Log.d("kkk", response);
+
         }
     };
 
@@ -144,7 +149,7 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
 
             /** post **/
             RequestQueue stringRequest = Volley.newRequestQueue(this);
-            String url = "http://192.168.7.26:8180/oop/join.do";
+            String url = "http://192.168.7.26:8180/oop/androidJoin.do";
 
             /*192.168.7.26 학원 ip*/
 
