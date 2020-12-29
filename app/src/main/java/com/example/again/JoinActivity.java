@@ -12,12 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class JoinActivity extends AppCompatActivity implements View.OnClickListener{
@@ -122,22 +127,42 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (isValid()) {
             //회원가입 시도
-            String id = etId.getText().toString().trim();
-            String pw = etPw1.getText().toString().trim();
-            String name = etName.getText().toString().trim();
-            String phone = etPhone.getText().toString().trim();
+            final String id = etId.getText().toString().trim();
+            final String pw = etPw1.getText().toString().trim();
+            final String name = etName.getText().toString().trim();
+            final String phone = etPhone.getText().toString().trim();
+/*          get 방식
             id= "id="+id;   //id=aaa
             pw = "join_pass="+pw; //pw=1234
             name = "name="+name;
             phone = "phone="+phone;
             String url = "http://172.20.10.4:8180/oop/join.do?"+id+"&"+pw+"&"+name+"&"+phone;
-            //192.168.35.215:8080/gather/insertJoin.do?id=aaa&pw=1234&name=zzzz&phone01010101
-
             //172.20.10.4:8180/oop/contentList.do
-
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             StringRequest myReq = new StringRequest(Request.Method.GET, url, successListener, errorListener);
-            requestQueue.add(myReq);
+            requestQueue.add(myReq);*/
+
+            /** post **/
+            RequestQueue stringRequest = Volley.newRequestQueue(this);
+            String url = "http://192.168.7.26:8180/oop/join.do";
+
+            /*192.168.7.26 학원 ip*/
+
+            StringRequest myReq = new StringRequest(Request.Method.POST, url,
+                    successListener, errorListener) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("id",id);
+                    params.put("join_pass", pw);
+                    params.put("name", name);
+                    params.put("phone", phone);
+                    return params;
+                }
+            };
+            myReq.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
+            );
+            stringRequest.add(myReq);
         } else {
             Toast.makeText(this, "데이터가 올바르지 않습니다 너처럼!", Toast.LENGTH_SHORT).show();
         }
