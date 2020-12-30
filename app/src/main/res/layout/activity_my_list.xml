@@ -7,16 +7,18 @@
     tools:context=".MyListActivity">
 
     <TextView
-        android:id="@+id/tv_welcome"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="환영한다 뉴비"/>
+        android:layout_marginBottom="20dp"
+        android:text="Oopshoes Product"
+        android:textSize="20sp"/>
 
     <ListView
         android:id="@+id/lv1"
-        android:layout_below="@id/tv_welcome"
+        android:layout_below="@id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
