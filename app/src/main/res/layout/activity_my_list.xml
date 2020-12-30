@@ -13,8 +13,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:text="Oopshoes Product"
-        android:textSize="20sp"/>
+        android:text="Product"
+        android:textSize="30sp"/>
 
     <ListView
         android:id="@+id/lv1"

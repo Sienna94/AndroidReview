@@ -119,6 +119,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             myReq.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
             );
             stringRequest.add(myReq);
+
+            Intent intent = new Intent(this, com.example.again.MyListActivity.class);
+            startActivity(intent);
+
         } else {
             Toast.makeText(this, "아이디 패스워드를 확인하세요 :(", Toast.LENGTH_SHORT).show();
         }
