@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +44,7 @@ public class MyListActivity extends AppCompatActivity {
       8. 이전과 동일*/
     ArrayList<ItemData> arr = new ArrayList<>();
     ImageView iv;
+    ImageView pimg;
     ListView lvMain;
     MyAdapter adapter; //전역에서 안쓰면 못 불러옴.
 
@@ -51,6 +53,7 @@ public class MyListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_list);
         iv=findViewById(R.id.iv_title);
+        pimg=findViewById(R.id.iv_pimage);
         lvMain = findViewById(R.id.lv1);
 
         //post방식으로 받아오기//
@@ -107,7 +110,8 @@ public class MyListActivity extends AppCompatActivity {
                     String pC = proObj.getString("pcontent");
                     //리스트에 보여줄 어레이에 추가
                     arr.add(i, new ItemData(pN, pI, pC));
-                    Log.d("response arr", arr.get(i).pName);
+
+                    Log.d("arr", arr.get(i).pName);
                 }
                 //데이터가 바꼈으니까 여기서 arr 변화를 notifychange해준다!
                 adapter.notifyDataSetChanged();
@@ -121,6 +125,7 @@ public class MyListActivity extends AppCompatActivity {
     //리스트 관련
     class ItemHolder {
         TextView tvPnameHolder;
+        ImageView ivPimage1Holder;
         TextView tvPimage1Holder;
         TextView tvPcontentHolder;
     }
@@ -155,8 +160,9 @@ public class MyListActivity extends AppCompatActivity {
                 viewHolder = new ItemHolder();
 
                 viewHolder.tvPnameHolder = convertView.findViewById(R.id.tv_pname);
-                viewHolder.tvPimage1Holder = convertView.findViewById(R.id.tv_pimage1);
+//                viewHolder.tvPimage1Holder = convertView.findViewById(R.id.tv_pimage1);
                 viewHolder.tvPcontentHolder = convertView.findViewById(R.id.tv_pcontent);
+                viewHolder.ivPimage1Holder = convertView.findViewById(R.id.iv_pimage);
 
                 convertView.setTag(viewHolder);
             }else{
@@ -164,8 +170,14 @@ public class MyListActivity extends AppCompatActivity {
             }
 
             viewHolder.tvPnameHolder.setText(arr.get(position).pName);
-            viewHolder.tvPimage1Holder.setText(arr.get(position).pImage1);
+//            viewHolder.tvPimage1Holder.setText(arr.get(position).pImage1);
             viewHolder.tvPcontentHolder.setText(arr.get(position).pContent);
+
+            //제품 사진도 바꿔줌
+            Glide.with(MyListActivity.this)
+                    .load("http://192.168.7.26:8180/oop/img/shoes/"+arr.get(position).pImage1)
+                    .into(viewHolder.ivPimage1Holder);
+            Log.d("img", "http://192.168.7.26:8180/oop/img/shoes/"+arr.get(position).pImage1);
 
             return convertView;
         }
