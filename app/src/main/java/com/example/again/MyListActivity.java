@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,46 +42,51 @@ public class MyListActivity extends AppCompatActivity {
       7. 아답터 빨간 부분 수정(대부분 대문자는 import 하면 됨 holder 제외)
       8. 이전과 동일*/
     ArrayList<ItemData> arr = new ArrayList<>();
-    TextView tv;
+    ImageView iv;
     ListView lvMain;
+    MyAdapter adapter; //전역에서 안쓰면 못 불러옴.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_list);
-        tv=findViewById(R.id.tv_title);
+        iv=findViewById(R.id.iv_title);
         lvMain = findViewById(R.id.lv1);
 
-//      리스트뷰 확인하는 임시 data
-        arr.add(new ItemData("pName1","img_src", "pContent"));
-        arr.add(new ItemData("pName2","img_src", "pContent"));
-        arr.add(new ItemData("pName3","img_src", "pContent"));
+        //post방식으로 받아오기//
+        RequestQueue stringRequest = Volley.newRequestQueue(this);
+        String url = "http://192.168.7.26:8180/oop/androidProductList.do";
 
-        final MyAdapter adapter = new MyAdapter(this);
+        StringRequest myReq = new StringRequest(Request.Method.POST, url,
+                successListener, errorListener);
+        myReq.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
+        );
+        stringRequest.add(myReq);
+        adapter = new MyAdapter(this);
         lvMain.setAdapter(adapter);
-        request();
-
-        tv.setOnClickListener(new View.OnClickListener() {
+        
+        iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arr.add(new ItemData("pName"+arr.size(),"img_src", "pContent"));
-                Log.d("addlist", "onClick: addlist");
-                adapter.notifyDataSetChanged();
+//                arr.add(new ItemData("pName"+arr.size(),"img_src", "pContent"));
+//                Log.d("addlist", "onClick: addlist");
+//                adapter.notifyDataSetChanged();
             }
         });
 
     }
     //JSON 데이터 받아오기
     //1. request 메소드 만들어주기
-    private void request(){
-        Log.d("request", "request: start");
-        //post방식으로 받아오기//
-       RequestQueue stringRequest = Volley.newRequestQueue(this);
-       String url = "http://192.168.7.26:8180/oop/androidProductList.do";
-
-       StringRequest myReq = new StringRequest(Request.Method.POST, url,
-                successListener, errorListener);
-       stringRequest.add(myReq);
-    }
+//    private void request(){
+//        Log.d("request", "request: start");
+//        //post방식으로 받아오기//
+//       RequestQueue stringRequest = Volley.newRequestQueue(this);
+//       String url = "http://192.168.7.26:8180/oop/androidProductList.do";
+//
+//       StringRequest myReq = new StringRequest(Request.Method.POST, url,
+//                successListener, errorListener);
+//       stringRequest.add(myReq);
+//    }
     Response.ErrorListener errorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
@@ -90,20 +97,23 @@ public class MyListActivity extends AppCompatActivity {
         //가져온 jsonArray 리스트뷰로 나타내기
         @Override
         public void onResponse(String response) {
-            Log.d("prolist", response);
+            try {
+                JSONArray proArr = new JSONArray(response);
 
-//            try {
-//                JSONArray jsonArray = new JSONArray(response);
-//                JSONObject jsonObject = new JSONObject();
-//                for (int i = 0; i < 10; i++) {
-//                    jsonObject = jsonArray.getJSONObject(i);
-//                    //제품이름
-//                    //제품이미지 src
-//                    //제품상세설명
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+                for (int i = 0; i < 10; i++) {
+                    JSONObject proObj = proArr.getJSONObject(i);
+                    String pN = proObj.getString("pname");
+                    String pI = proObj.getString("pimage1");
+                    String pC = proObj.getString("pcontent");
+                    //리스트에 보여줄 어레이에 추가
+                    arr.add(i, new ItemData(pN, pI, pC));
+                    Log.d("response arr", arr.get(i).pName);
+                }
+                //데이터가 바꼈으니까 여기서 arr 변화를 notifychange해준다!
+                adapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     };
 
