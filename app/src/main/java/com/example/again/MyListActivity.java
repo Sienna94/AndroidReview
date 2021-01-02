@@ -58,7 +58,8 @@ public class MyListActivity extends AppCompatActivity {
 
         //post방식으로 받아오기//
         RequestQueue stringRequest = Volley.newRequestQueue(this);
-        String url = "http://192.168.7.26:8180/oop/androidProductList.do";
+        String url = "http://172.20.10.4:8180/oop/androidProductList.do";
+//        http://192.168.7.26
 
         StringRequest myReq = new StringRequest(Request.Method.POST, url,
                 successListener, errorListener);
@@ -175,10 +176,10 @@ public class MyListActivity extends AppCompatActivity {
 
             //제품 사진도 바꿔줌
             Glide.with(MyListActivity.this)
-                    .load("http://192.168.7.26:8180/oop/img/shoes/"+arr.get(position).pImage1)
+                    .load("http://172.20.10.4:8180/oop/img/shoes/"+arr.get(position).pImage1)
                     .into(viewHolder.ivPimage1Holder);
-            Log.d("img", "http://192.168.7.26:8180/oop/img/shoes/"+arr.get(position).pImage1);
-
+            Log.d("img", "http://172.20.10.4:8180/oop/img/shoes/"+arr.get(position).pImage1);
+//        http://192.168.7.26 (학원)
             return convertView;
         }
     }
