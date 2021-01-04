@@ -6,7 +6,7 @@ public class ItemCommentData {
     String mid; //작성자(고객아이디)
     String date; //작성일
     String content;  //댓글 내용
-    String isMine; //내글이냐
+    String isMine; //내글이냐 내글이면 1, 아니면 0
     String reply; //댓글
 
     public ItemCommentData(String idx, String pid, String mid, String date, String content, String isMine, String reply) {

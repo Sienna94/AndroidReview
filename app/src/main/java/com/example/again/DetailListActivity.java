@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DetailListActivity extends AppCompatActivity {
+public class DetailListActivity extends AppCompatActivity implements View.OnClickListener {
     ArrayList<ItemCommentData> arr = new ArrayList<>();
     TextView tv;
     EditText input;
@@ -58,11 +58,14 @@ public class DetailListActivity extends AppCompatActivity {
         btn=findViewById(R.id.bt_commentinput);
         lvDetail=findViewById(R.id.lv_comment);
 
+        btn.setOnClickListener(this);
+
         //post방식으로 받아오기//
 
         RequestQueue stringRequest = Volley.newRequestQueue(this);
-        String url = "http://192.168.7.26:8180/oop/androidCommentList.do";
+        String url = "http://172.20.10.4:8180/oop/androidCommentList.do";
 //        http://192.168.7.26
+//        http://172.20.10.4
         StringRequest myReq = new StringRequest(Request.Method.POST, url,
                 successListener, errorListener){
             @Override
@@ -119,6 +122,57 @@ public class DetailListActivity extends AppCompatActivity {
             }
         }
     };
+
+    Response.ErrorListener errorListener2 = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.d("kkk", "댓글등록 실패");
+        }
+    };
+
+    Response.Listener<String> successListener2 = new Response.Listener<String>() {
+        @Override
+        public void onResponse(String response) {
+            Log.d("kkk", "댓글등록 성공" + response);
+            adapter.notifyDataSetChanged();
+        }
+    };
+    @Override
+    public void onClick(View v) {
+        //입력 버튼 클릭시 댓글 등록하기create
+        Log.d("bbb", "onClick : 댓글등록 try");
+        Intent intent2 = getIntent(); //전 페이지에서 데이터 가져오기
+        final String pid = intent2.getExtras().getString("pid");
+        final String mid = intent2.getExtras().getString("mid");
+        final String ccontent = input.getText().toString().trim();
+        Log.d("intent2 onclick", pid+"/"+mid+"/"+ccontent);
+
+        /** post **/
+        RequestQueue stringRequest = Volley.newRequestQueue(this);
+        String url = "http://172.20.10.4:8180/oop/androidCommentInsert.do";
+
+
+        /*192.168.7.26 학원 ip*/
+
+        StringRequest myReq2 = new StringRequest(Request.Method.POST, url,
+                successListener2, errorListener2) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("pid", pid);
+                params.put("mid", mid);
+                params.put("ccontent", ccontent);
+                return params;
+            }
+        };
+        myReq2.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
+        );
+        stringRequest.add(myReq2);
+        adapter = new MyAdapter(this);
+        lvDetail.setAdapter(adapter);
+
+    }
 
     //리스트에 출력될 아이템들
     class ItemHolder{
