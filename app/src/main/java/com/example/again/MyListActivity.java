@@ -113,10 +113,10 @@ public class MyListActivity extends AppCompatActivity implements View.OnClickLis
                     String pN = proObj.getString("pname");
                     String pI = proObj.getString("pimage1");
                     String pC = proObj.getString("pcontent");
+                    String pID = proObj.getString("pid");
                     //리스트에 보여줄 어레이에 추가
-                    arr.add(i, new ItemData(pN, pI, pC));
+                    arr.add(i, new ItemData(pN, pI, pC, pID));
 
-                    Log.d("arr", arr.get(i).pName);
                 }
                 //데이터가 바꼈으니까 여기서 arr 변화를 notifychange해준다!
                 adapter.notifyDataSetChanged();
@@ -138,6 +138,8 @@ public class MyListActivity extends AppCompatActivity implements View.OnClickLis
 //        intent.putExtra("pname", arr.get(position).pName);//상품이름
 //        intent.putExtra("pimage", "http://172.20.10.4:8180/oop/img/shoes/"+arr.get(position).pImage1);//상품 이미지 링크
 //        intent.putExtra("pcontent", arr.get(position).pContent);//상품 상세 설명
+        intent.putExtra("pid", arr.get(position).pID);
+        Log.d("commentlist", arr.get(position).pID);
         startActivity(intent);
     }
 
