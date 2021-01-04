@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -34,7 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MyListActivity extends AppCompatActivity {
+public class MyListActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 /*    1. item 위한 레이아웃 만들기
       2. item 위한 데이터클래스 만들기 / item xml
       3. 어레이 리스트 만들기
@@ -58,7 +60,7 @@ public class MyListActivity extends AppCompatActivity {
 
         //post방식으로 받아오기//
         RequestQueue stringRequest = Volley.newRequestQueue(this);
-        String url = "http://172.20.10.4:8180/oop/androidProductList.do";
+        String url = "http://192.168.7.26:8180/oop/androidProductList.do";
 //        http://192.168.7.26
 
         StringRequest myReq = new StringRequest(Request.Method.POST, url,
@@ -68,13 +70,15 @@ public class MyListActivity extends AppCompatActivity {
         stringRequest.add(myReq);
         adapter = new MyAdapter(this);
         lvMain.setAdapter(adapter);
-        
+        lvMain.setOnItemClickListener(this);
+
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                arr.add(new ItemData("pName"+arr.size(),"img_src", "pContent"));
 //                Log.d("addlist", "onClick: addlist");
 //                adapter.notifyDataSetChanged();
+
             }
         });
 
@@ -122,6 +126,20 @@ public class MyListActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    //해당 제품 후기 페이지로 넘어가도록
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this, com.example.again.DetailListActivity.class);
+//        intent.putExtra("pname", arr.get(position).pName);//상품이름
+//        intent.putExtra("pimage", "http://172.20.10.4:8180/oop/img/shoes/"+arr.get(position).pImage1);//상품 이미지 링크
+//        intent.putExtra("pcontent", arr.get(position).pContent);//상품 상세 설명
+        startActivity(intent);
+    }
 
     //리스트 관련
     class ItemHolder {
@@ -176,9 +194,9 @@ public class MyListActivity extends AppCompatActivity {
 
             //제품 사진도 바꿔줌
             Glide.with(MyListActivity.this)
-                    .load("http://172.20.10.4:8180/oop/img/shoes/"+arr.get(position).pImage1)
+                    .load("http://192.168.7.26:8180/oop/img/shoes/"+arr.get(position).pImage1)
                     .into(viewHolder.ivPimage1Holder);
-            Log.d("img", "http://172.20.10.4:8180/oop/img/shoes/"+arr.get(position).pImage1);
+            Log.d("img", "http://192.168.7.26/oop/img/shoes/"+arr.get(position).pImage1);
 //        http://192.168.7.26 (학원)
             return convertView;
         }

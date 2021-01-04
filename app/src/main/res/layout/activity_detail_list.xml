@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_tit"
+        android:text="COMMENT"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/et_comment"
+        android:hint="댓글입력창"
+        android:layout_below="@id/tv_tit"
+        android:layout_marginLeft="10dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:id="@+id/bt_commentinput"
+        android:layout_alignBaseline="@id/et_comment"
+        android:layout_toRightOf="@id/et_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="comment"
+        android:textColor="@android:color/white"
+        android:background="@android:color/black" />
+
+    <ListView
+        android:id="@+id/lv_comment"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/et_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
