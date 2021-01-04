@@ -45,35 +45,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-<!--        <LinearLayout-->
-<!--            android:layout_below="@id/tv_comment"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content">-->
+        <LinearLayout
+            android:layout_below="@id/tv_date"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-<!--            <Button-->
-<!--                android:id="@+id/btn_delete"-->
-<!--                android:background="@android:color/black"-->
-<!--                android:textColor="@android:color/white"-->
-<!--                android:text="delete"-->
-<!--                android:layout_marginLeft="10dp"-->
-<!--                android:layout_toRightOf="@id/tv_date"-->
-<!--                android:layout_below="@id/tv_comment"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="30dp"/>-->
-<!--            <Button-->
-<!--                android:id="@+id/btn_update"-->
-<!--                android:background="@android:color/black"-->
-<!--                android:textColor="@android:color/white"-->
-<!--                android:text="update"-->
-<!--                android:layout_marginLeft="10dp"-->
-<!--                android:layout_toRightOf="@id/btn_delete"-->
-<!--                android:layout_below="@id/tv_comment"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="30dp"/>-->
+            <Button
+                android:id="@+id/btn_delete"
+                android:background="@android:color/black"
+                android:textColor="@android:color/white"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:text="delete"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/tv_date"
+                android:layout_below="@id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"/>
+            <Button
+                android:id="@+id/btn_edit"
+                android:background="@android:color/black"
+                android:textColor="@android:color/white"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:text="update"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/btn_delete"
+                android:layout_below="@id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"/>
 
-<!--        </LinearLayout>-->
+        </LinearLayout>
 
 
 
