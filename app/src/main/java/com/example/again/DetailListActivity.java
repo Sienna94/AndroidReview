@@ -43,6 +43,8 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
     Button btn;
     ListView lvDetail;
 
+    EditText etv_update;
+
     MyAdapter adapter;
 
     @Override
@@ -56,45 +58,11 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
 
         btn.setOnClickListener(this);
 
-        requestForData();
-    };
-    //댓글 삭제하기
-    private void deleteComment(final String cidx){
-        Response.ErrorListener errorListener3 = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("kkk", "댓글 삭제 실패");
-            }
-        };
-        Response.Listener<String> successListener3 = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("kkk", "댓글 삭제 성공" + response);
-                adapter.notifyDataSetChanged();
-            }
-        };
-        //삭제 버튼 클릭시 댓글 삭제하기 delete
-        Log.d("bbb", "onClick : 댓글 삭제 try");
-        /** post **/
-        RequestQueue stringRequest = Volley.newRequestQueue(this);
-        String url = "http://172.20.10.4:8180/oop/androidCommentDelete.do";
-        /*192.168.7.26 학원 ip*/
-
-        StringRequest myReq2 = new StringRequest(Request.Method.POST, url,
-                successListener3, errorListener3) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("cidx", cidx);
-                return params;
-            }
-        };
-        myReq2.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
-        );
-        stringRequest.add(myReq2);
         adapter = new MyAdapter(this);
         lvDetail.setAdapter(adapter);
-    }
+
+        requestForData();
+    };
 
     //댓글 불러오기
     private void requestForData(){
@@ -145,7 +113,7 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
         Log.d("commentlist", pid);
 
         RequestQueue stringRequest = Volley.newRequestQueue(this);
-        String url = "http://172.20.10.4:8180/oop/androidCommentList.do";
+        String url = "http://192.168.7.26:8180/oop/androidCommentList.do";
 //        http://192.168.7.26
 //        http://172.20.10.4
         StringRequest myReq = new StringRequest(Request.Method.POST, url,
@@ -160,8 +128,6 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
         myReq.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
         );
         stringRequest.add(myReq);
-        adapter = new MyAdapter(this);
-        lvDetail.setAdapter(adapter);
     }
 
     //댓글 입력하기
@@ -183,9 +149,10 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
         //입력 버튼 클릭시 댓글 등록하기create
         Log.d("bbb", "onClick : 댓글등록 try");
         final String ccontent = input.getText().toString().trim();
+
         /** post **/
         RequestQueue stringRequest = Volley.newRequestQueue(this);
-        String url = "http://172.20.10.4:8180/oop/androidCommentInsert.do";
+        String url = "http://192.168.7.26:8180/oop/androidCommentInsert.do";
         /*192.168.7.26 학원 ip*/
 
         StringRequest myReq2 = new StringRequest(Request.Method.POST, url,
@@ -204,10 +171,88 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
         myReq2.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
         );
         stringRequest.add(myReq2);
-        adapter = new MyAdapter(this);
-        lvDetail.setAdapter(adapter);
+
         requestForData();
     }
+    //댓글 삭제하기
+    private void deleteComment(final String cidx){
+        Response.ErrorListener errorListener3 = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("kkk", "댓글 삭제 실패");
+            }
+        };
+        Response.Listener<String> successListener3 = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("kkk", "댓글 삭제 성공" + response);
+
+                arr.remove(position);
+                adapter.notifyDataSetChanged();
+            }
+        };
+        //삭제 버튼 클릭시 댓글 삭제하기 delete
+        Log.d("bbb", "onClick : 댓글 삭제 try");
+        /** post **/
+        RequestQueue stringRequest = Volley.newRequestQueue(this);
+        String url = "http://192.168.7.26:8180/oop/androidCommentDelete.do";
+        /*192.168.7.26 학원 ip*/
+
+        StringRequest myReq2 = new StringRequest(Request.Method.POST, url,
+                successListener3, errorListener3) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("cidx", cidx);
+                return params;
+            }
+        };
+        myReq2.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
+        );
+        stringRequest.add(myReq2);
+    }
+    //댓글 수정
+    private void updateComment(final String cidx, final String ccontent){
+        Response.ErrorListener errorListener4 = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("update", "댓글 수정 실패");
+            }
+        };
+        Response.Listener<String> successListener4 = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("update", "댓글 수정 성공" + response);
+                adapter.notifyDataSetChanged();
+            }
+        };
+        //수정완료 버튼 클릭시 댓글 수정 요청보내기
+        Log.d("updateTry", "onClick : 댓글 수정try");
+        Log.d("updateTry", "cidx:"+cidx+"/ccontent"+ccontent);
+//        etv_update = findViewById(R.id.etv_update);
+//        final String ccontent = etv_update.getText().toString().trim();
+
+        /** post **/
+        RequestQueue stringRequest = Volley.newRequestQueue(this);
+        String url = "http://192.168.7.26:8180/oop/androidCommentUpdate.do";
+        /*192.168.7.26 학원 ip*/
+
+        StringRequest myReq2 = new StringRequest(Request.Method.POST, url,
+                successListener4, errorListener4) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("cidx", cidx);
+                params.put("ccontent", ccontent);
+                Log.d("updateParams", "cidx:"+cidx+"ccontent:"+ccontent);
+                return params;
+            }
+        };
+        myReq2.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
+        );
+        stringRequest.add(myReq2);
+    }
+
     //comment 버튼 클릭
     @Override
     public void onClick(View v) {
@@ -221,9 +266,14 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
         TextView tvDateHolder;
         Button btn_del;
         Button btn_edit;
+        EditText etvContentHolder;
+
+        Button btn_update;
     }
 
+    int position; // 액티비티 안의 position을 말한다! myadapter안의 position이 아니라 액티비티 포지션을 찾아서 지워줘야되니까.
     class MyAdapter extends ArrayAdapter{
+
         LayoutInflater lnf;
         public MyAdapter(Activity context) {
             super(context, R.layout.item_comment, arr);
@@ -248,7 +298,7 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            ItemHolder viewHolder;
+            final ItemHolder viewHolder;
             if(convertView == null){
                 convertView = lnf.inflate(R.layout.item_comment, parent, false);
                 viewHolder = new ItemHolder();
@@ -260,8 +310,15 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
                 viewHolder.btn_del = convertView.findViewById(R.id.btn_delete);
                 viewHolder.btn_edit =convertView.findViewById(R.id.btn_edit);
 
+                viewHolder.btn_update=convertView.findViewById(R.id.btn_update);
+                
+                //댓글 수정 완료
+                viewHolder.etvContentHolder = convertView.findViewById(R.id.etv_update);
+                
                 viewHolder.btn_del.setTag(position);
                 viewHolder.btn_edit.setTag(position);
+                viewHolder.btn_update.setTag(position);
+                
                 convertView.setTag(viewHolder);
             }else{
                 viewHolder = (ItemHolder) convertView.getTag();
@@ -270,17 +327,22 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
             viewHolder.tvWriterHolder.setText(arr.get(position).mid);
             viewHolder.tvContentHolder.setText(arr.get(position).content);
             viewHolder.tvDateHolder.setText(arr.get(position).date);
+            viewHolder.etvContentHolder.setText(arr.get(position).content);//수정도 textview랑 같은 내용
 
             //삭제, 수정 버튼 클릭
             viewHolder.btn_del.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    String mid = getIntent().getExtras().getString("mid");
-                    if(arr.get(position).mid == mid){
+                    String mid2 = getIntent().getExtras().getString("mid");
+                    Log.d("btndel", "mid2:"+mid2);
+                    Log.d("btndel", "arr.get(position).mid:"+arr.get(position).mid);
+                    if(arr.get(position).mid.equals(mid2)){
+                        DetailListActivity.this.position = position;
                         String idx = arr.get(position).idx;
+                        Log.d("btndel", idx);
                         deleteComment(idx);
                     }else{
-                        // 왜 토스트가 안돼?... 대체 왜?
+                        Toast.makeText(DetailListActivity.this, "자신이 작성한 글만 지울 수 있습니다 :(", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -288,12 +350,29 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onClick(View v) {
                     String mid = getIntent().getExtras().getString("mid");
-                    if(arr.get(position).mid == mid){
-                        String idx = arr.get(position).idx;
+                    Log.d("edit", "btn_edit: 클릭됨");
+                    if(arr.get(position).mid.equals(mid)){
+//                        String idx = arr.get(position).idx;
+                        viewHolder.tvContentHolder.setVisibility(View.INVISIBLE);
+                        viewHolder.etvContentHolder.setVisibility(View.VISIBLE);
+                        Log.d("edit", "btn_edit: 수정창 보여주기");
 
+//                        etv_update = findViewById(R.id.etv_update);
+//                        final String ccontent = etv_update.getText().toString().trim();
+//
+//                        updateComment(idx, ccontent);
                     }else{
-
+                        Toast.makeText(DetailListActivity.this, "자신이 작성한 글만 수정할 수 있습니다 :(", Toast.LENGTH_SHORT).show();
                     }
+                }
+            });
+            viewHolder.btn_update.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String idx = arr.get(position).idx;
+                    etv_update = findViewById(R.id.etv_update);
+                    final String ccontent = etv_update.getText().toString().trim();
+                    updateComment(idx, ccontent);
                 }
             });
 

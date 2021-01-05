@@ -33,15 +33,29 @@
             android:layout_below="@id/tv_writer"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
+            android:textSize="12sp"
             android:layout_toRightOf="@+id/profile_img"
             android:text="여기는 댓글창입니다. 뭐라도 제발 만들어야하는데 오늘 나는 댓글기능을 구현하고 잘 수 있을까" />
+
+        <EditText
+            android:visibility="invisible"
+            android:id="@+id/etv_update"
+            android:layout_width="347dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_writer"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/profile_img"
+            android:textColor="@color/colorAccent"
+            android:hint="여기는 댓글창입니다. 뭐라도 제발 만들어야하는데 오늘 나는 댓글기능을 구현하고 잘 수 있을까" />
+        />
 
         <TextView
             android:id="@+id/tv_date"
             android:text="2021.1.4"
             android:layout_alignStart="@id/tv_comment"
-
-            android:layout_below="@id/tv_comment"
+            android:layout_below="@id/etv_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -57,7 +71,6 @@
                 android:background="@android:color/black"
                 android:textColor="@android:color/white"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:text="delete"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/tv_date"
@@ -69,13 +82,24 @@
                 android:background="@android:color/black"
                 android:textColor="@android:color/white"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:text="edit"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/btn_delete"
+                android:layout_below="@id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"/>
+            <Button
+                android:id="@+id/btn_update"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/white"
+                android:focusable="true"
                 android:text="update"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/btn_delete"
                 android:layout_below="@id/tv_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"/>
+
 
         </LinearLayout>
 

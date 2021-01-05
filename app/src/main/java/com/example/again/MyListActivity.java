@@ -62,9 +62,10 @@ public class MyListActivity extends AppCompatActivity implements View.OnClickLis
 
         //post방식으로 받아오기//
         RequestQueue stringRequest = Volley.newRequestQueue(this);
-        String url = "http://172.20.10.4:8180/oop/androidProductList.do";
+        String url = "http://192.168.7.26:8180/oop/androidProductList.do";
 //        http://192.168.7.26
 //        http://172.20.10.4
+
 
         StringRequest myReq = new StringRequest(Request.Method.POST, url,
                 successListener, errorListener);

@@ -149,7 +149,7 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
 
             /** post **/
             RequestQueue stringRequest = Volley.newRequestQueue(this);
-            String url = "http://172.20.10.4:8180/oop/androidJoin.do";
+            String url = "http://192.168.7.26:8180/oop/androidJoin.do";
 
             /*192.168.7.26 학원 ip*/
 

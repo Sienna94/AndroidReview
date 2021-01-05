@@ -9,6 +9,7 @@ public class ItemCommentData {
     String isMine; //내글이냐 내글이면 1, 아니면 0
     String reply; //댓글
 
+
     public ItemCommentData(String idx, String pid, String mid, String date, String content, String isMine, String reply) {
         this.idx = idx;
         this.pid = pid;

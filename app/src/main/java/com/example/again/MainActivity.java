@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             final String pw = etPw.getText().toString().trim();
             //post//
             RequestQueue stringRequest = Volley.newRequestQueue(this);
-            String url = "http://172.20.10.4:8180/oop/androidLogin.do";
+            String url = "http://192.168.7.26:8180/oop/androidLogin.do";
 //        http://192.168.7.26784
 //         http://172.20.10.4
             StringRequest myReq = new StringRequest(Request.Method.POST, url,
