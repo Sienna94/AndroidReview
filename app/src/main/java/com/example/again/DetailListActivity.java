@@ -42,9 +42,7 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
     EditText input;
     Button btn;
     ListView lvDetail;
-
     EditText etv_update;
-
     MyAdapter adapter;
 
     @Override
@@ -186,7 +184,6 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onResponse(String response) {
                 Log.d("kkk", "댓글 삭제 성공" + response);
-
                 arr.remove(position);
                 adapter.notifyDataSetChanged();
             }
@@ -223,6 +220,7 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onResponse(String response) {
                 Log.d("update", "댓글 수정 성공" + response);
+                arr.get(position).content=updated;
                 adapter.notifyDataSetChanged();
             }
         };
@@ -272,6 +270,7 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
     }
 
     int position; // 액티비티 안의 position을 말한다! myadapter안의 position이 아니라 액티비티 포지션을 찾아서 지워줘야되니까.
+    String updated;
     class MyAdapter extends ArrayAdapter{
 
         LayoutInflater lnf;
@@ -324,6 +323,9 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
                 viewHolder = (ItemHolder) convertView.getTag();
             }
 
+            viewHolder.tvContentHolder.setVisibility(View.VISIBLE);
+            viewHolder.etvContentHolder.setVisibility(View.INVISIBLE);
+
             viewHolder.tvWriterHolder.setText(arr.get(position).mid);
             viewHolder.tvContentHolder.setText(arr.get(position).content);
             viewHolder.tvDateHolder.setText(arr.get(position).date);
@@ -352,7 +354,6 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
                     String mid = getIntent().getExtras().getString("mid");
                     Log.d("edit", "btn_edit: 클릭됨");
                     if(arr.get(position).mid.equals(mid)){
-//                        String idx = arr.get(position).idx;
                         viewHolder.tvContentHolder.setVisibility(View.INVISIBLE);
                         viewHolder.etvContentHolder.setVisibility(View.VISIBLE);
                         Log.d("edit", "btn_edit: 수정창 보여주기");
@@ -369,10 +370,14 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
             viewHolder.btn_update.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String ccontent = viewHolder.etvContentHolder.getText().toString().trim();
+                    DetailListActivity.this.position = position;
+                    DetailListActivity.this.updated = ccontent;
                     String idx = arr.get(position).idx;
                     etv_update = findViewById(R.id.etv_update);
-                    final String ccontent = etv_update.getText().toString().trim();
                     updateComment(idx, ccontent);
+//                    viewHolder.tvContentHolder.setVisibility(View.VISIBLE);
+//                    viewHolder.etvContentHolder.setVisibility(View.INVISIBLE);
                 }
             });
 

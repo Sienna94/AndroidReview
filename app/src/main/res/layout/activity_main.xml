@@ -43,6 +43,7 @@
             android:id="@+id/et_user"
             android:layout_width="wrap_content"
             android:hint="아이디를 입력해주세요"
+            android:text="admin"
             android:layout_alignEnd="@id/et_pw"
             android:layout_alignTop="@+id/tv_user"
             android:layout_alignBottom="@+id/tv_user"
@@ -51,6 +52,7 @@
 
         <EditText
             android:id="@+id/et_pw"
+            android:text="1"
             android:layout_width="wrap_content"
             android:hint="비밀번호를 입력해주세요"
             android:layout_alignTop="@+id/tv_pw"
