@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DetailListActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetailListActivity extends BaseActivity implements View.OnClickListener {
     ArrayList<ItemCommentData> arr = new ArrayList<>();
     TextView tv;
     EditText input;
@@ -64,12 +64,6 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
 
     //댓글 불러오기
     private void requestForData(){
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("commentlist", "댓글 리스트 실패");
-            }
-        };
         Response.Listener<String> successListener = new Response.Listener<String>() {
             //가져온 jsonArray 리스트뷰로 나타내기
             @Override
@@ -110,33 +104,15 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
         final String pid = intent.getExtras().getString("pid");
         Log.d("commentlist", pid);
 
-        RequestQueue stringRequest = Volley.newRequestQueue(this);
-        String url = "http://192.168.7.4:8180/oop/androidCommentList.do";
-//        http://192.168.7.26
-//        http://172.20.10.4
-        StringRequest myReq = new StringRequest(Request.Method.POST, url,
-                successListener, errorListener){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("pid", pid);
-                return params;
-            }
-        };
-        myReq.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
-        );
-        stringRequest.add(myReq);
+        Log.d("chk", "댓글 페이지 통신 :start");
+        params.clear();
+        params.put("pid", pid);
+        request("androidCommentList.do", successListener);
     }
 
     //댓글 입력하기
     private void commentInsert(){
-        Response.ErrorListener errorListener2 = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("kkk", "댓글등록 실패");
-            }
-        };
-        Response.Listener<String> successListener2 = new Response.Listener<String>() {
+        Response.Listener<String> successListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("kkk", "댓글등록 성공" + response);
@@ -144,38 +120,19 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
             }
         };
         //입력 버튼 클릭시 댓글 등록하기create
-        Log.d("bbb", "onClick : 댓글등록 try");
+        Log.d("chk", "댓글 등록 통신 start");
         final String ccontent = input.getText().toString().trim();
-        /** post **/
-        RequestQueue stringRequest = Volley.newRequestQueue(this);
-        String url = "http://192.168.7.26:8180/oop/androidCommentInsert.do";
-        /*192.168.7.26 학원 ip*/
+        params.clear();
+        params.put("pid", getIntent().getExtras().getString("pid"));
+        params.put("mid", getIntent().getExtras().getString("mid"));
+        params.put("ccontent", ccontent);
+        request("androidCommentInsert.do", successListener);
 
-        StringRequest myReq2 = new StringRequest(Request.Method.POST, url,
-                successListener2, errorListener2) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("pid", getIntent().getExtras().getString("pid"));
-                params.put("mid", getIntent().getExtras().getString("mid"));
-                params.put("ccontent", ccontent);
-                return params;
-            }
-        };
-        myReq2.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
-        );
-        stringRequest.add(myReq2);
-        requestForData();
     }
     //댓글 삭제하기
     private void deleteComment(final String cidx){
-        Response.ErrorListener errorListener3 = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("kkk", "댓글 삭제 실패");
-            }
-        };
-        Response.Listener<String> successListener3 = new Response.Listener<String>() {
+
+        Response.Listener<String> successListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("kkk", "댓글 삭제 성공" + response);
@@ -185,33 +142,13 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
         };
         //삭제 버튼 클릭시 댓글 삭제하기 delete
         Log.d("bbb", "onClick : 댓글 삭제 try");
-        /** post **/
-        RequestQueue stringRequest = Volley.newRequestQueue(this);
-        String url = "http://192.168.7.26:8180/oop/androidCommentDelete.do";
-        /*192.168.7.26 학원 ip*/
-
-        StringRequest myReq2 = new StringRequest(Request.Method.POST, url,
-                successListener3, errorListener3) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("cidx", cidx);
-                return params;
-            }
-        };
-        myReq2.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
-        );
-        stringRequest.add(myReq2);
+        params.clear();
+        params.put("cidx", cidx);
+        request("androidCommentDelete.do", successListener);
     }
     //댓글 수정
     private void updateComment(final String cidx, final String ccontent){
-        Response.ErrorListener errorListener4 = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("update", "댓글 수정 실패");
-            }
-        };
-        Response.Listener<String> successListener4 = new Response.Listener<String>() {
+        Response.Listener<String> successListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("update", "댓글 수정 성공" + response);
@@ -222,26 +159,10 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
         //수정완료 버튼 클릭시 댓글 수정 요청보내기
         Log.d("updateTry", "onClick : 댓글 수정try");
         Log.d("updateTry", "cidx:"+cidx+"/ccontent"+ccontent);
-
-        /** post **/
-        RequestQueue stringRequest = Volley.newRequestQueue(this);
-        String url = "http://192.168.7.26:8180/oop/androidCommentUpdate.do";
-        /*192.168.7.26 학원 ip*/
-
-        StringRequest myReq2 = new StringRequest(Request.Method.POST, url,
-                successListener4, errorListener4) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("cidx", cidx);
-                params.put("ccontent", ccontent);
-                Log.d("updateParams", "cidx:"+cidx+"ccontent:"+ccontent);
-                return params;
-            }
-        };
-        myReq2.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
-        );
-        stringRequest.add(myReq2);
+        params.clear();
+        params.put("cidx", cidx);
+        params.put("ccontent", ccontent);
+        request("androidCommentUpdate.do", successListener);
     }
 
     //comment 버튼 클릭

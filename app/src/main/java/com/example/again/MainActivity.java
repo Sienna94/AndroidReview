@@ -21,10 +21,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     ImageView img;
     TextView tv;
@@ -78,19 +81,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
     }
-    Response.ErrorListener errorListener = new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            Log.d("aaa", "로그인 실패");
-
-        }
-    };
 
     Response.Listener<String> successListener = new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
             Log.d("kkk", response);
-
         }
     };
     @Override
@@ -103,26 +98,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //로그인 시도
             final String id = etUser.getText().toString().trim();
             final String pw = etPw.getText().toString().trim();
-            //post//
-            RequestQueue stringRequest = Volley.newRequestQueue(this);
-            String url = "http://192.168.7.4:8180/oop/androidLogin.do";
 
-//        http://192.168.7.26:8180/oop
-//        http://192.168.7.4
-//         http://172.20.10.4
-            StringRequest myReq = new StringRequest(Request.Method.POST, url,
-                    successListener, errorListener) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("id",id);
-                    params.put("pass", pw);
-                    return params;
-                }
-            };
-            myReq.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
-            );
-            stringRequest.add(myReq);
+            Log.d("chk", "로그인 통신: start");
+            params.clear();
+            params.put("id",id);
+            params.put("pass", pw);
+            Log.d("loginchk", "id:"+id+"/pass:"+pw);
+            request("androidLogin.do", successListener);
 
             Intent intent = new Intent(this, com.example.again.MyListActivity.class);
             intent.putExtra("mid", id);

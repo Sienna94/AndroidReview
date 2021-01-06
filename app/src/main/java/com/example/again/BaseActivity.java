@@ -40,7 +40,8 @@ public class BaseActivity extends AppCompatActivity {
                 successListener, errorListener){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
+                String str ="str";
+                params.put("test",str);
                 return params;
             }
         };

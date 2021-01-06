@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class JoinActivity extends AppCompatActivity implements View.OnClickListener{
+public class JoinActivity extends BaseActivity implements View.OnClickListener{
     TextView tv1;
     TextView tv2;
     TextView tv3;
@@ -93,32 +93,6 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
         }
         return isValid;
     }
-/*
-
-    @Override
-    public void onClick(View v) {
-        boolean isValid = false;
-        if(etId.getText().toString().trim().length() < 1){
-            isValid = false;
-        }else if(etId.getText().toString().trim().contains("  ")){
-            isValid = false;
-        }else if(etPw1.getText().toString().trim().contains("  ")){
-            isValid = false;
-        }else if(!etPw1.getText().toString().trim().equals(etPw2.getText().toString().trim())){
-            isValid=false;
-        }else if(etName.getText().toString().trim().length() < 1){
-            isValid = false;
-        }else if(etPhone.getText().toString().trim().length() <1){
-
-        }
-
-    }*/
-    Response.ErrorListener errorListener = new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            Log.d("kkk", "uuu");
-        }
-    };
 
     Response.Listener<String> successListener = new Response.Listener<String>() {
         @Override
@@ -136,38 +110,34 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
             final String pw = etPw1.getText().toString().trim();
             final String name = etName.getText().toString().trim();
             final String phone = etPhone.getText().toString().trim();
-/*          get 방식
-            id= "id="+id;   //id=aaa
-            pw = "join_pass="+pw; //pw=1234
-            name = "name="+name;
-            phone = "phone="+phone;
-            String url = "http://172.20.10.4:8180/oop/join.do?"+id+"&"+pw+"&"+name+"&"+phone;
-            //172.20.10.4:8180/oop/contentList.do
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            StringRequest myReq = new StringRequest(Request.Method.GET, url, successListener, errorListener);
-            requestQueue.add(myReq);*/
 
-            /** post **/
-            RequestQueue stringRequest = Volley.newRequestQueue(this);
-            String url = "http://192.168.7.26:8180/oop/androidJoin.do";
+            Log.d("chk", "회원가입 통신: start");
+            params.clear();
+            params.put("id",id);
+            params.put("join_pass", pw);
+            params.put("name", name);
+            params.put("phone", phone);
+            request("androidJoin.do", successListener);
 
-            /*192.168.7.26 학원 ip*/
-
-            StringRequest myReq = new StringRequest(Request.Method.POST, url,
-                    successListener, errorListener) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("id",id);
-                    params.put("join_pass", pw);
-                    params.put("name", name);
-                    params.put("phone", phone);
-                    return params;
-                }
-            };
-            myReq.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
-            );
-            stringRequest.add(myReq);
+//            /** post **/
+//            RequestQueue stringRequest = Volley.newRequestQueue(this);
+//            String url = "http://192.168.7.26:8180/oop/androidJoin.do";
+//
+//            StringRequest myReq = new StringRequest(Request.Method.POST, url,
+//                    successListener, errorListener) {
+//                @Override
+//                protected Map<String, String> getParams() throws AuthFailureError {
+//                    Map<String, String> params = new HashMap<String, String>();
+//                    params.put("id",id);
+//                    params.put("join_pass", pw);
+//                    params.put("name", name);
+//                    params.put("phone", phone);
+//                    return params;
+//                }
+//            };
+//            myReq.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
+//            );
+//            stringRequest.add(myReq);
         } else {
             Toast.makeText(this, "데이터가 올바르지 않습니다 너처럼!", Toast.LENGTH_SHORT).show();
         }
