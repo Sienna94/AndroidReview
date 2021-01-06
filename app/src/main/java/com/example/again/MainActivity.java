@@ -81,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Response.ErrorListener errorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
-            Log.d("kkk", "로그인 실패");
+            Log.d("aaa", "로그인 실패");
+
         }
     };
 
@@ -104,8 +105,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             final String pw = etPw.getText().toString().trim();
             //post//
             RequestQueue stringRequest = Volley.newRequestQueue(this);
-            String url = "http://192.168.7.26:8180/oop/androidLogin.do";
-//        http://192.168.7.26784
+            String url = "http://192.168.7.4:8180/oop/androidLogin.do";
+
+//        http://192.168.7.26:8180/oop
+//        http://192.168.7.4
 //         http://172.20.10.4
             StringRequest myReq = new StringRequest(Request.Method.POST, url,
                     successListener, errorListener) {

@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DetailListActivity"></activity>
+        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".DetailListActivity" />
         <activity android:name=".MyListActivity" />
 
         <uses-library

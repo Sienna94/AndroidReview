@@ -60,7 +60,7 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
         lvDetail.setAdapter(adapter);
 
         requestForData();
-    };
+    }
 
     //댓글 불러오기
     private void requestForData(){
@@ -111,7 +111,7 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
         Log.d("commentlist", pid);
 
         RequestQueue stringRequest = Volley.newRequestQueue(this);
-        String url = "http://192.168.7.26:8180/oop/androidCommentList.do";
+        String url = "http://192.168.7.4:8180/oop/androidCommentList.do";
 //        http://192.168.7.26
 //        http://172.20.10.4
         StringRequest myReq = new StringRequest(Request.Method.POST, url,
@@ -136,7 +136,6 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
                 Log.d("kkk", "댓글등록 실패");
             }
         };
-
         Response.Listener<String> successListener2 = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -147,7 +146,6 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
         //입력 버튼 클릭시 댓글 등록하기create
         Log.d("bbb", "onClick : 댓글등록 try");
         final String ccontent = input.getText().toString().trim();
-
         /** post **/
         RequestQueue stringRequest = Volley.newRequestQueue(this);
         String url = "http://192.168.7.26:8180/oop/androidCommentInsert.do";
@@ -155,7 +153,6 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
 
         StringRequest myReq2 = new StringRequest(Request.Method.POST, url,
                 successListener2, errorListener2) {
-
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
@@ -164,12 +161,10 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
                 params.put("ccontent", ccontent);
                 return params;
             }
-
         };
         myReq2.setRetryPolicy(new DefaultRetryPolicy(3000, 0, 1f)
         );
         stringRequest.add(myReq2);
-
         requestForData();
     }
     //댓글 삭제하기
@@ -227,8 +222,6 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
         //수정완료 버튼 클릭시 댓글 수정 요청보내기
         Log.d("updateTry", "onClick : 댓글 수정try");
         Log.d("updateTry", "cidx:"+cidx+"/ccontent"+ccontent);
-//        etv_update = findViewById(R.id.etv_update);
-//        final String ccontent = etv_update.getText().toString().trim();
 
         /** post **/
         RequestQueue stringRequest = Volley.newRequestQueue(this);
@@ -270,7 +263,8 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
     }
 
     int position; // 액티비티 안의 position을 말한다! myadapter안의 position이 아니라 액티비티 포지션을 찾아서 지워줘야되니까.
-    String updated;
+    String updated; // 댓글 수정시 변경되는 내용
+
     class MyAdapter extends ArrayAdapter{
 
         LayoutInflater lnf;
@@ -357,11 +351,6 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
                         viewHolder.tvContentHolder.setVisibility(View.INVISIBLE);
                         viewHolder.etvContentHolder.setVisibility(View.VISIBLE);
                         Log.d("edit", "btn_edit: 수정창 보여주기");
-
-//                        etv_update = findViewById(R.id.etv_update);
-//                        final String ccontent = etv_update.getText().toString().trim();
-//
-//                        updateComment(idx, ccontent);
                     }else{
                         Toast.makeText(DetailListActivity.this, "자신이 작성한 글만 수정할 수 있습니다 :(", Toast.LENGTH_SHORT).show();
                     }
@@ -376,11 +365,8 @@ public class DetailListActivity extends AppCompatActivity implements View.OnClic
                     String idx = arr.get(position).idx;
                     etv_update = findViewById(R.id.etv_update);
                     updateComment(idx, ccontent);
-//                    viewHolder.tvContentHolder.setVisibility(View.VISIBLE);
-//                    viewHolder.etvContentHolder.setVisibility(View.INVISIBLE);
                 }
             });
-
             return convertView;
         }
     }
